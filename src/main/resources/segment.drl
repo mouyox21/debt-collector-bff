@@ -1,0 +1,36 @@
+import com.mercureit.DebtCollectorBFF.entities.Segment
+import com.mercureit.DebtCollectorBFF.entities.Dossier
+import com.mercureit.DebtCollectorBFF.entities.PPhysique
+import com.mercureit.DebtCollectorBFF.enumuration.TypePersonne
+import java.util.Date
+import java.time.LocalDate;
+
+
+global Date referenceDate;
+
+rule "Rule 1"
+agenda-group "lowProvision"
+when
+    dossier : Dossier( montantProvision < 100)
+then
+    dossier.getSegment().setIdSegment(1);
+end
+
+rule "Rule 2"
+agenda-group "oldDossierHighProvision"
+when
+    dossier : Dossier( montantProvision > 400 )
+//    dossier : Dossier( montantProvision > 400 && dateProvision < referenceDate)
+then
+    System.out.println("Segment applied");
+    dossier.getSegment().setIdSegment(2);
+end
+
+//rule "Rule 3"
+//agenda-group "PersonneSegment"
+//when
+//    dossier : Dossier( personne.dateCreation > referenceDate )
+//then
+//    System.out.println("Segment applied");
+//    dossier.getSegment().setIdSegment(3);
+//end
